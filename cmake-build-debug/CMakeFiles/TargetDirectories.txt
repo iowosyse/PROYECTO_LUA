@@ -1,0 +1,3 @@
+C:/Users/cande/OneDrive/Escritorio/Tec uwu/Estructura de datos/Unidad 2/PROYECTO LUA/cmake-build-debug/CMakeFiles/PROYECTO_LUA.dir
+C:/Users/cande/OneDrive/Escritorio/Tec uwu/Estructura de datos/Unidad 2/PROYECTO LUA/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/cande/OneDrive/Escritorio/Tec uwu/Estructura de datos/Unidad 2/PROYECTO LUA/cmake-build-debug/CMakeFiles/rebuild_cache.dir

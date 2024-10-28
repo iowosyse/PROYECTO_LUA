@@ -1,0 +1,146 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "mylist.h"
+
+MyList* crearLista(int isCircular, int isDouble) {
+    MyList *lista = malloc(sizeof(MyList));
+    lista->head = NULL;
+
+    //Si es circular debe ser doble :)
+    if (isCircular) {
+        lista->isCircular = 1;
+        lista->isDouble = 1;
+    } else {
+        lista->isDouble = isDouble;
+    }
+
+    return lista;
+}
+
+void insertarInicio(MyList *lista, int valor) {
+    Nodo *nodo = malloc(sizeof(Nodo));
+    nodo->info = valor;
+
+    if (lista->head == NULL) {
+        lista->head = nodo;
+        if (lista->isCircular) {
+            nodo->sig = nodo;
+            nodo->prev = nodo;
+        } else {
+            nodo->sig = NULL;
+            nodo->prev = NULL;
+        }
+    } else {
+        nodo->sig = lista->head;
+        if (lista->isDouble) {
+            nodo->prev = lista->head->prev;
+            lista->head->prev = nodo;
+            if (lista->isCircular) {
+                nodo->prev->sig = nodo;
+            }
+        }
+        lista->head = nodo;
+    }
+}
+
+
+void insertarFinal(MyList *lista, int valor) {
+    if (lista->head == NULL) {
+        insertarInicio(lista, valor);
+    } else {
+        Nodo *nodo = malloc(sizeof(Nodo));
+        nodo->info = valor;
+        Nodo *fin = getLast(lista);
+        fin->sig = nodo;
+        if (lista->isDouble) {
+            nodo->prev = fin;
+        }
+        if (lista->isCircular) {
+            nodo->sig = lista->head;
+            lista->head->prev = nodo;
+        } else {
+            nodo->sig = NULL;
+        }
+    }
+}
+
+void insertarOrdenado(MyList *lista, int valor) {
+
+    if (lista->head == NULL || lista->head->info > valor) {
+        insertarInicio(lista, valor);
+    } else {
+        Nodo *nodo = malloc(sizeof(Nodo));
+        nodo->info = valor;
+        Nodo *elem = lista->head;
+        while (elem->sig != lista->head && elem->sig != NULL && elem->sig->info < nodo->info) {
+            elem = elem->sig;
+        }
+        nodo->sig = elem->sig;
+        elem->sig = nodo;
+        if (lista->isDouble) {
+            nodo->prev = elem;
+            if (nodo->sig != NULL) {
+                nodo->sig->prev = nodo;
+            }
+        }
+        if (lista->isCircular && nodo->sig == lista->head) {
+            lista->head->prev = nodo;
+        }
+    }
+}
+
+int borrar(MyList *lista, int x) {
+    if (lista->head == NULL)
+        return -1;
+
+    Nodo *elem = lista->head;
+    Nodo *prevElem = NULL;
+
+    do {
+        if (elem->info == x) {
+            if (prevElem == NULL) {
+                lista->head = elem->sig;
+                if (lista->isCircular) {
+                    getLast(lista)->sig = lista->head;
+                }
+            } else {
+                prevElem->sig = elem->sig;
+                if (lista->isDouble && elem->sig != NULL) {
+                    elem->sig->prev = prevElem;
+                }
+            }
+            free(elem);
+            return x;
+        }
+        prevElem = elem;
+        elem = elem->sig;
+    } while (elem != lista->head && elem != NULL);
+
+    return -1;
+}
+
+Nodo* getLast(MyList *lista) {
+    Nodo *fin = lista->head;
+    if (fin == NULL) return NULL;
+
+    while (fin->sig != lista->head && fin->sig != NULL) {
+        fin = fin->sig;
+    }
+    return fin;
+}
+
+void mostrarLista(MyList *lista) {
+    if (lista->head == NULL) {
+        printf("La lista está vacía.\n");
+        return;
+    }
+
+    Nodo *elem = lista->head;
+    printf("|");
+    do {
+        printf("-%d", elem->info);
+        elem = elem->sig;
+    } while (elem != lista->head && elem != NULL);
+
+    printf("-|\n");
+}
