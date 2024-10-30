@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "mylist.h"
 
 MyList* crearLista(int isCircular, int isDouble) {
     MyList *lista = malloc(sizeof(MyList));
     lista->head = NULL;
+    char nom[30] = {0};
 
     //Si es circular debe ser doble :)
     if (isCircular) {
@@ -13,6 +15,12 @@ MyList* crearLista(int isCircular, int isDouble) {
     } else {
         lista->isDouble = isDouble;
     }
+
+    getchar();
+    printf("Cual es el nombre de la lista? \n>>");
+    gets(nom);
+
+    strcpy(lista->nombre, nom);
 
     return lista;
 }
@@ -31,17 +39,26 @@ void insertarInicio(MyList *lista, int valor) {
             nodo->prev = NULL;
         }
     } else {
+        // Conectar el nuevo nodo al inicio de la lista
         nodo->sig = lista->head;
+
         if (lista->isDouble) {
             nodo->prev = lista->head->prev;
             lista->head->prev = nodo;
-            if (lista->isCircular) {
-                nodo->prev->sig = nodo;
-            }
         }
+
+        if (lista->isCircular) {
+            // En una lista circular, actualizar el último nodo para que apunte al nuevo nodo
+            Nodo *ultimo = getLast(lista);
+            ultimo->sig = nodo;
+            nodo->prev = ultimo;
+        }
+
+        // Actualizar el head para que apunte al nuevo nodo
         lista->head = nodo;
     }
 }
+
 
 
 void insertarFinal(MyList *lista, int valor) {
@@ -140,7 +157,8 @@ void mostrarLista(MyList *lista) {
     do {
         printf("-%d", elem->info);
         elem = elem->sig;
-    } while (elem != lista->head && elem != NULL);
+        if (elem == NULL) break;
+    } while (elem != lista->head);
 
     printf("-|\n");
 }
