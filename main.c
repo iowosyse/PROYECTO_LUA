@@ -86,9 +86,7 @@ void menuListas()
                 if (listaActual == NULL)
                     printf("No hay lista");
                 else
-                {
                     menuInsertar(listaActual);
-                }
                 break;
             case 4:
                 if (listaActual == NULL)
