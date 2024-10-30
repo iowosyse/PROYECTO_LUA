@@ -10,7 +10,8 @@ typedef struct Nodo {
 typedef struct MyList {
     Nodo *head;
     int isCircular;   // 1 para hacerlo circular. Si es circular fuerza a que la lista sea doble
-    int isDouble;     // 0 para listas simples, 1 para doblemente enlazadas
+    int isDouble;// 0 para listas simples, 1 para doblemente enlazadas
+    char nombre[30];
 } MyList;
 
 MyList* crearLista(int isCircular, int isDouble);
