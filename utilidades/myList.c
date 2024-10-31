@@ -57,6 +57,8 @@ void insertarInicio(MyList *lista, int valor) {
         // Actualizar el head para que apunte al nuevo nodo
         lista->head = nodo;
     }
+    printf("Elemento insertado con exito.\n");
+    mostrarLista(lista);
 }
 
 
@@ -79,6 +81,8 @@ void insertarFinal(MyList *lista, int valor) {
             nodo->sig = NULL;
         }
     }
+    printf("Elemento insertado con exito.\n");
+    mostrarLista(lista);
 }
 
 void insertarOrdenado(MyList *lista, int valor) {
@@ -103,6 +107,8 @@ void insertarOrdenado(MyList *lista, int valor) {
         if (lista->isCircular && nodo->sig == lista->head) {
             lista->head->prev = nodo;
         }
+        printf("Elemento insertado con exito.\n");
+        mostrarLista(lista);
     }
 }
 
@@ -127,16 +133,19 @@ int borrar(MyList *lista, int x) {
                 }
             }
             free(elem);
+            printf("Elemento eliminado con éxito\n");
+            mostrarLista(lista);
             return x;
         }
         prevElem = elem;
         elem = elem->sig;
     } while (elem != lista->head && elem != NULL);
 
+    printf("El elemento que se desea eliminar no existe\n");
     return -1;
 }
 
-Nodo* getLast(MyList *lista) {
+Nodo* getLast(const MyList *lista) {
     Nodo *fin = lista->head;
     if (fin == NULL) return NULL;
 
@@ -146,7 +155,7 @@ Nodo* getLast(MyList *lista) {
     return fin;
 }
 
-void mostrarLista(MyList *lista) {
+void mostrarLista(const MyList *lista) {
     if (lista->head == NULL) {
         printf("La lista está vacía.\n");
         return;

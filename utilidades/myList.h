@@ -19,8 +19,8 @@ void insertarInicio(MyList *lista, int valor);
 void insertarFinal(MyList *lista, int valor);
 void insertarOrdenado(MyList *lista, int valor);
 int borrar(MyList *lista, int x);
-Nodo* getLast(MyList *lista);
-void mostrarLista(MyList *lista);
+Nodo* getLast(const MyList *lista);
+void mostrarLista(const MyList *lista);
 
 #endif
 
